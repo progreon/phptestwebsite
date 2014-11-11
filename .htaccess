@@ -20,6 +20,8 @@ Options +FollowSymlinks
 # Activates URL rewriting (like myproject.com/controller/action/1/2/3)
 RewriteEngine On
 
+RewriteRule ^(.+/.*) 404 [L,NC]
+
 # If the following conditions are true, then rewrite the URL:
 # If the requested filename is not a directory,
 RewriteCond %{REQUEST_FILENAME} !-d

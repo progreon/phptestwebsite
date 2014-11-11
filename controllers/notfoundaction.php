@@ -16,6 +16,7 @@ require_once 'myphpaction.php';
 class NotFoundAction extends MyPHPAction {
     
     public function execute() {
+        http_response_code(404);
         $_REQUEST['view'] = '404.php';
     }
 

@@ -7,6 +7,7 @@ and open the template in the editor.
 <?php
     $view = $_REQUEST['view'];
     if (!$view) {
+        http_response_code(404);
         $view = '404.php';
     }
 ?>
