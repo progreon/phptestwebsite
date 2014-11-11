@@ -18,10 +18,12 @@ require_once 'notfoundaction.php';
  */
 class Controller {
 
-    const VIEWS_FOLDER = "views/";
+    const VIEWS_FOLDER = "pages/";
+    const TEMPLATE = "template.php";
 
     private $actions = Array();
 
+    // As random as possible to insure not surfing here
     const DEFAULT_ACTION = "default";
     const HOME_ACTION = "home";
     const VIEW1_ACTION = "view1";
@@ -36,24 +38,22 @@ class Controller {
     }
 
     public function handle_request() {
-        if (!isset($_GET['p']) || $_GET['p'] == "") {
+        if (!isset($_GET['p']) || $_GET['p'] == "" || $_GET['p'] == "index.php") {
             $_GET['p'] = Controller::HOME_ACTION;
         }
+        if ($_GET['p'] == Controller::DEFAULT_ACTION) {
+            $_GET['p'] = "404";
+        }
         $action = $_GET['p'];
-//        debug
-//        $url = Controller::VIEWS_FOLDER . $action . '.php';
-//        echo $url;
-        if (in_array($action, $this->actions)) {
+        
+        if (isset($this->actions[$action])) {
             $this->actions[$action]->execute();
         } else {
-            $url = Controller::VIEWS_FOLDER . $action . '.php';
-            if (file_exists($url)) {
-                $this->actions[Controller::DEFAULT_ACTION]->execute();
-            } else {
+            if (!$this->actions[Controller::DEFAULT_ACTION]->execute()) {
                 $this->actions[Controller::NOTFOUND_ACTION]->execute();
             }
         }
-        include 'template.php';
+        include Controller::TEMPLATE;
     }
 
     private function init() {

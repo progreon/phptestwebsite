@@ -5,11 +5,16 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <?php
-    $view = $_REQUEST['view'];
-    if (!$view) {
-        http_response_code(404);
-        $view = '404.php';
-    }
+/**
+ * Debugging
+ */
+//ini_set('display_errors', 'On');
+//error_reporting(E_ALL);
+$view = ROOT . $_REQUEST['view'];
+if (!$view) {
+    http_response_code(404);
+    $view = ROOT . 'pages/404.php';
+}
 ?>
 <html>
     <head>
@@ -17,12 +22,8 @@ and open the template in the editor.
         <title>template</title>
     </head>
     <body>
-        <?php if ($view) { ?>
         <?php include 'header.php'; ?>
         <?php include $view; ?>
         <?php include 'footer.php'; ?>
-        <?php } else { ?>
-        There is no view!
-        <?php } ?>
     </body>
 </html>

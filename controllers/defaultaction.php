@@ -16,7 +16,13 @@ require_once 'myphpaction.php';
 class DefaultAction extends MyPHPAction {
     
     public function execute() {
-        $_REQUEST['view'] = Controller::VIEWS_FOLDER . $_GET['p'] . '.php';
+        $url = Controller::VIEWS_FOLDER . $_GET['p'] . '.php';
+        if (file_exists($url)) {
+            $_REQUEST['view'] = $url;
+            return true;
+        } else {
+            return false;
+        }
     }
     
 }

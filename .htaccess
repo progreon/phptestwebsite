@@ -1,9 +1,14 @@
 # Apache configuration file (see httpd.apache.org/docs/2.2/mod/quickreference.html)
 
+# Protect files and directories from prying eyes.
+#<FilesMatch "\.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)(~|\.sw[op]|\.bak|\.orig|\.save)?$|^(\..*|Entries.*|Repository|Root|Tag|Template)$|^#.*#$|\.php(~|\.sw[op]|\.bak|\.orig\.save)$">
+#  Order allow,deny
+#</FilesMatch>
+
 # Disable directory listing
 Options -Indexes
 
-ErrorDocument 404 /template.php?view=404.php
+ErrorDocument 404 /404
 
 #
 # DirectoryIndex: sets the file that Apache will serve if a directory
@@ -13,25 +18,26 @@ DirectoryIndex index.php
 
 # Necessary to prevent problems when using a controller named "index" and having a root index.php
 # more here: http://httpd.apache.org/docs/2.2/content-negotiation.html
-#Options -MultiViews
+Options -MultiViews
 
 Options +FollowSymlinks
 
 # Activates URL rewriting (like myproject.com/controller/action/1/2/3)
 RewriteEngine On
 
-RewriteRule ^(.+/.*) 404 [L,NC]
+#RewriteRule ^(.+/.*) 404 [L,NC]
+#RewriteRule (^\..*|.*md$) 404 [L,NC]
 
 # If the following conditions are true, then rewrite the URL:
 # If the requested filename is not a directory,
-RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_FILENAME} !-d
 # and if the requested filename is not a regular file that exists,
-RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-f
 # and if the requested filename is not a symbolic link,
-RewriteCond %{REQUEST_FILENAME} !-l
+#RewriteCond %{REQUEST_FILENAME} !-l
 # then rewrite the URL in the following way:
 # Take the whole request filename and provide it as the value of a
 # "url" query parameter to index.php. Append any query string from
 # the original URL as further query parameters (QSA), and stop
 # processing this .htaccess file (L).
-RewriteRule ^(.+)$ index.php?p=$1 [QSA,L]
+RewriteRule ^(.*)$ index.php?p=$1 [QSA,L]
