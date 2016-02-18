@@ -20,10 +20,12 @@ if (!$view) {
     <head>
         <meta charset="UTF-8">
         <title>template</title>
+        <?php include 'css.php'; ?>
     </head>
     <body>
         <?php include 'header.php'; ?>
         <?php include $view; ?>
         <?php include 'footer.php'; ?>
+        <?php include 'js.php'; ?>
     </body>
 </html>
